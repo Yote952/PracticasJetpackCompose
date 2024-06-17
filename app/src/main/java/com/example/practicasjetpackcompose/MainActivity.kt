@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -32,7 +33,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             PracticasJetpackComposeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MyColumn(
+                    MyRow(
                             modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -60,33 +61,23 @@ fun MyColumn(modifier: Modifier) {
             .background(Color.Red)
             .fillMaxWidth()
             .height(100.dp))
-        Text(text = "Ejemplo 1", modifier = Modifier
-            .background(Color.Red)
-            .fillMaxWidth()
-            .height(100.dp))
-        Text(text = "Ejemplo 1", modifier = Modifier
-            .background(Color.Red)
-            .fillMaxWidth()
-            .height(100.dp))
-        Text(text = "Ejemplo 1", modifier = Modifier
-            .background(Color.Red)
-            .fillMaxWidth()
-            .height(100.dp))
-        Text(text = "Ejemplo 1", modifier = Modifier
-            .background(Color.Red)
-            .fillMaxWidth()
-            .height(100.dp))
-        Text(text = "Ejemplo 1", modifier = Modifier
-            .background(Color.Red)
-            .fillMaxWidth()
-            .height(100.dp))
-        Text(text = "Ejemplo 1", modifier = Modifier
-            .background(Color.Red)
-            .fillMaxWidth()
-            .height(100.dp))
         Text(text = "Ejemplo 1", modifier = Modifier.background(Color.Black).weight(1f))
         Text(text = "Ejemplo 1", modifier = Modifier.background(Color.Cyan))
         Text(text = "Ejemplo 1", modifier = Modifier.background(Color.Blue))
+    }
+}
+
+@Composable
+fun MyRow(modifier: Modifier) {
+    Row(modifier = modifier.fillMaxSize(), horizontalArrangement = Arrangement.SpaceBetween){
+        Text("Ejemplo", modifier = Modifier.width(100.dp))
+        Text("Ejemplo", modifier = Modifier.width(100.dp))
+        Text("Ejemplo", modifier = Modifier.width(100.dp))
+        Text("Ejemplo", modifier = Modifier.width(100.dp))
+        Text("Ejemplo", modifier = Modifier.width(100.dp))
+        Text("Ejemplo", modifier = Modifier.width(100.dp))
+        Text("Ejemplo", modifier = Modifier.width(100.dp))
+        Text("Ejemplo", modifier = Modifier.width(100.dp))
     }
 }
 

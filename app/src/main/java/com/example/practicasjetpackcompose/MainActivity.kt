@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -26,6 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ChainStyle
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.example.practicasjetpackcompose.ui.theme.PracticasJetpackComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -44,35 +47,182 @@ class MainActivity : ComponentActivity() {
     }
 }
 @Composable
+fun MyConstraintLayout(){
+    ConstraintLayout(modifier = Modifier.fillMaxSize()){
+        val (boxRed, boxBlue,boxYellow, boxMagenta, boxGreen) = createRefs()
+        Box(
+            modifier = Modifier
+                .size(125.dp)
+                .background(Color.Red)
+                .constrainAs(boxRed) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    bottom.linkTo(parent.bottom)
+                }
+        ){
+
+        }
+        Box(
+            modifier = Modifier
+                .size(125.dp)
+                .background(Color.Blue)
+                .constrainAs(boxBlue) {
+                    top.linkTo(boxRed.bottom)
+                    start.linkTo(boxRed.end)
+                }
+        ){
+
+        }
+        Box(
+            modifier = Modifier
+                .size(125.dp)
+                .background(Color.Green)
+                .constrainAs(boxGreen) {
+                    top.linkTo(boxRed.bottom)
+                    end.linkTo(boxRed.start)
+                }
+        ){
+
+        }
+        Box(
+            modifier = Modifier
+                .size(125.dp)
+                .background(Color.Yellow)
+                .constrainAs(boxYellow) {
+                    bottom.linkTo(boxRed.top)
+                    end.linkTo(boxRed.start)
+                }
+        ){
+
+        }
+        Box(
+            modifier = Modifier
+                .size(125.dp)
+                .background(Color.Magenta)
+                .constrainAs(boxMagenta) {
+                    bottom.linkTo(boxRed.top)
+                    start.linkTo(boxRed.end)
+                }
+        ){
+
+        }
+    }
+}
+@Composable
+fun ConstraintExampleGuide(){
+        ConstraintLayout(Modifier.fillMaxSize()) {
+            val boxRed = createRef()
+            val topGuide = createGuidelineFromTop(0.1f)
+            val startGuide = createGuidelineFromStart(0.25f)
+            Box(modifier = Modifier
+                .size(125.dp)
+                .background(Color.Red)
+                .constrainAs(boxRed) {
+                    top.linkTo(topGuide)
+                    start.linkTo(startGuide)
+                })
+        }
+}
+@Composable
+fun ConstraintExampleBarrier(){
+    ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+        val (boxRed, boxGreen, boxYellow) = createRefs()
+        val barrier = createEndBarrier(boxRed,boxGreen)
+        Box(modifier = Modifier
+            .size(125.dp)
+            .background(Color.Green)
+            .constrainAs(boxGreen) {
+                start.linkTo(parent.start, margin = 16.dp)
+            })
+        Box(modifier = Modifier
+            .size(235.dp)
+            .background(Color.Red)
+            .constrainAs(boxRed) {
+                top.linkTo(boxGreen.bottom)
+                start.linkTo(parent.start, margin = 32.dp)
+            })
+        Box(modifier = Modifier
+            .size(50.dp)
+            .background(Color.Yellow)
+            .constrainAs(boxYellow) {
+                start.linkTo(barrier)
+            })
+    }
+}
+@Preview
+@Composable
+fun ConstraintChainExample(){
+    ConstraintLayout(Modifier.fillMaxSize()) {
+        val (boxRed, boxGreen, boxYellow) = createRefs()
+        Box(modifier = Modifier
+            .size(75.dp)
+            .background(Color.Green)
+            .constrainAs(boxGreen) {
+                start.linkTo(parent.start)
+                end.linkTo(boxRed.start)
+            })
+        Box(modifier = Modifier
+            .size(75.dp)
+            .background(Color.Red)
+            .constrainAs(boxRed) {
+                start.linkTo(boxGreen.end)
+                end.linkTo(boxYellow.start)
+            })
+        Box(modifier = Modifier
+            .size(75.dp)
+            .background(Color.Yellow)
+            .constrainAs(boxYellow) {
+                start.linkTo(boxRed.end)
+                end.linkTo(parent.end)
+            })
+        createHorizontalChain(boxRed,boxGreen,boxYellow, chainStyle = ChainStyle.SpreadInside)
+    }
+}
+@Composable
 fun MyComplexLayout(modifier: Modifier) {
     Column (
         modifier = modifier.fillMaxSize()
     ){
         Box(
-            modifier = Modifier.fillMaxWidth().weight(1f).background(Color.Cyan),
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .background(Color.Cyan),
             contentAlignment = Alignment.Center
         ){
                 Text("Ejemplo 1")
         }
         Spacer(Modifier.height(30.dp))
         Row(
-            modifier = Modifier.fillMaxWidth().weight(1f)
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
         ){
             Box(
-                modifier =  Modifier.weight(1f).fillMaxHeight().background(Color.Red),
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .background(Color.Red),
                 contentAlignment = Alignment.Center
             ){
                 Text("Ejemplo 2")
             }
             Box(
-                modifier =  Modifier.weight(1f).fillMaxHeight().background(Color.Green),
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
+                    .background(Color.Green),
                 contentAlignment = Alignment.Center
             ){
                 Text("Ejemplo 3")
             }
         }
         Box(
-            modifier = Modifier.fillMaxWidth().weight(1f).background(Color.Magenta),
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .background(Color.Magenta),
             contentAlignment = Alignment.BottomCenter
         ){
                 Text("Ejemplo 4")

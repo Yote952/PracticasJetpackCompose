@@ -5,8 +5,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -29,13 +32,61 @@ class MainActivity : ComponentActivity() {
         setContent {
             PracticasJetpackComposeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MyBox(
-                            name = "Android",
+                    MyColumn(
                             modifier = Modifier.padding(innerPadding)
                     )
                 }
             }
         }
+    }
+}
+
+@Composable
+fun MyColumn(modifier: Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = "Ejemplo 1", modifier = Modifier
+            .background(Color.Red)
+            .fillMaxWidth()
+            .height(100.dp))
+        Text(text = "Ejemplo 1", modifier = Modifier
+            .background(Color.Red)
+            .fillMaxWidth()
+            .height(100.dp))
+        Text(text = "Ejemplo 1", modifier = Modifier
+            .background(Color.Red)
+            .fillMaxWidth()
+            .height(100.dp))
+        Text(text = "Ejemplo 1", modifier = Modifier
+            .background(Color.Red)
+            .fillMaxWidth()
+            .height(100.dp))
+        Text(text = "Ejemplo 1", modifier = Modifier
+            .background(Color.Red)
+            .fillMaxWidth()
+            .height(100.dp))
+        Text(text = "Ejemplo 1", modifier = Modifier
+            .background(Color.Red)
+            .fillMaxWidth()
+            .height(100.dp))
+        Text(text = "Ejemplo 1", modifier = Modifier
+            .background(Color.Red)
+            .fillMaxWidth()
+            .height(100.dp))
+        Text(text = "Ejemplo 1", modifier = Modifier
+            .background(Color.Red)
+            .fillMaxWidth()
+            .height(100.dp))
+        Text(text = "Ejemplo 1", modifier = Modifier
+            .background(Color.Red)
+            .fillMaxWidth()
+            .height(100.dp))
+        Text(text = "Ejemplo 1", modifier = Modifier.background(Color.Black).weight(1f))
+        Text(text = "Ejemplo 1", modifier = Modifier.background(Color.Cyan))
+        Text(text = "Ejemplo 1", modifier = Modifier.background(Color.Blue))
     }
 }
 
@@ -61,6 +112,6 @@ fun MyBox(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     PracticasJetpackComposeTheme {
-        MyBox("Android")
+        MyColumn(Modifier)
     }
 }

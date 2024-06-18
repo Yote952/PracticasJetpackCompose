@@ -12,7 +12,6 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,9 +34,10 @@ class MainActivity : ComponentActivity() {
             PracticasJetpackComposeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Column{
-                        MyTextFieldAdvance(
-                            modifier = Modifier.padding(innerPadding)
-                        )
+                        var myText by rememberSaveable { mutableStateOf("") }
+                        MyTextFieldAdvance(modifier = Modifier.padding(innerPadding), myText) {
+                            myText = it
+                        }
                         MyTextField(modifier = Modifier.padding(innerPadding))
                     }
                 }
@@ -46,17 +46,11 @@ class MainActivity : ComponentActivity() {
     }
 }
 @Composable
-fun MyTextFieldAdvance(modifier: Modifier) {
-    var myText by rememberSaveable { mutableStateOf("") }
+fun MyTextFieldAdvance(modifier: Modifier, name: String, onValueChanged: (String) -> Unit) {
+
     OutlinedTextField(
-        value = myText,
-        onValueChange = { myText = if (it.contains("a")){
-                            it.replace("a","")
-                            }
-                            else{
-                                it
-                            }
-                        },
+        value = name,
+        onValueChange = {onValueChanged(it)},
         label = { Text(text = "Introduce tu nombre")},
         modifier = modifier,
         colors = OutlinedTextFieldDefaults.colors(
@@ -94,6 +88,6 @@ fun MyText(modifier: Modifier) {
 @Composable
 fun GreetingPreview() {
     PracticasJetpackComposeTheme {
-        MyTextFieldAdvance(Modifier)
+        MyTextFieldAdvance(Modifier, myText) {}
     }
 }

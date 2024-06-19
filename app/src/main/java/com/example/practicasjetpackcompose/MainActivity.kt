@@ -12,9 +12,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -53,11 +55,22 @@ class MainActivity : ComponentActivity() {
     }
 }
 @Composable
+fun MyIcon(modifier: Modifier) {
+    Icon(
+        imageVector = Icons.Rounded.Star,
+        contentDescription = "icono",
+        tint = Color.Red
+    )
+
+}
+@Composable
 fun MyImageAdvance(modifier: Modifier) {
     Image(
         painter = painterResource(id = R.drawable.ic_launcher_background),
         contentDescription = "ejemplo",
-        modifier = Modifier.clip(CircleShape).border(5.dp, Color.Red, CircleShape)
+        modifier = Modifier
+            .clip(CircleShape)
+            .border(5.dp, Color.Red, CircleShape)
     )
 }
 @Composable
@@ -148,6 +161,6 @@ fun MyText(modifier: Modifier) {
 @Composable
 fun GreetingPreview() {
     PracticasJetpackComposeTheme {
-        MyImageAdvance(Modifier)
+        MyIcon(Modifier)
     }
 }

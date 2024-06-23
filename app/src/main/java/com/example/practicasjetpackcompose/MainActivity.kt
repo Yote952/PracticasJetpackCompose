@@ -8,15 +8,21 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -29,9 +35,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -48,12 +56,61 @@ class MainActivity : ComponentActivity() {
         setContent {
             PracticasJetpackComposeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MyButtonExample(Modifier.padding(innerPadding))
+                    MyProgressBar(Modifier.padding(innerPadding))
                 }
             }
         }
     }
 }
+@Composable
+fun MyProgressAdvance(modifier: Modifier){
+    var progressStatus by rememberSaveable {
+        mutableStateOf(0.0f)
+    }
+    Column(modifier = modifier) {
+        CircularProgressIndicator(progress = progressStatus)
+        Row(){
+            Button(onClick = { progressStatus += if(progressStatus >= 1) 0.1f else 0f}) {
+                Text(text = "Incrementar")
+            }
+            Button(onClick = { progressStatus -= if(progressStatus <= 0) 0.1f else 0f}) {
+                Text(text = "Reducir")
+            }
+        }
+    }
+}
+@Composable
+fun MyProgressBar(modifier: Modifier) {
+    var showLoading by rememberSaveable {
+        mutableStateOf(false)
+    }
+    Column(
+        modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        if (showLoading) {
+            CircularProgressIndicator(
+                color = Color.Red,
+                trackColor = Color.Magenta,
+                strokeCap = StrokeCap.Butt,
+                strokeWidth = 7.dp
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            LinearProgressIndicator(
+                color = Color.Red,
+                trackColor = Color.Black,
+                strokeCap = StrokeCap.Round,
+            )
+        }
+        Button(onClick = { showLoading = !showLoading }) {
+            Text("Cargar perfil")
+        }
+
+        MyProgressAdvance(modifier)
+    }
+}
+
 @Composable
 fun MyIcon(modifier: Modifier) {
     Icon(
@@ -63,6 +120,7 @@ fun MyIcon(modifier: Modifier) {
     )
 
 }
+
 @Composable
 fun MyImageAdvance(modifier: Modifier) {
     Image(
@@ -73,13 +131,16 @@ fun MyImageAdvance(modifier: Modifier) {
             .border(5.dp, Color.Red, CircleShape)
     )
 }
+
 @Composable
 fun MyImage(modifier: Modifier) {
-    Image(painter = painterResource(id = R.drawable.ic_launcher_background),
+    Image(
+        painter = painterResource(id = R.drawable.ic_launcher_background),
         contentDescription = "Ejemplo",
         alpha = 0.5f
     )
 }
+
 @Composable
 fun MyButtonExample(modifier: Modifier) {
     var enable by rememberSaveable { mutableStateOf(true) }
@@ -102,8 +163,10 @@ fun MyButtonExample(modifier: Modifier) {
         ) {
             Text("Button")
         }
-        OutlinedButton(onClick = { /*TODO*/ },
-            colors= ButtonDefaults.outlinedButtonColors(contentColor = Color.Blue, )) {
+        OutlinedButton(
+            onClick = { /*TODO*/ },
+            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Blue)
+        ) {
             Text("Lined Button")
         }
         TextButton(onClick = { /*TODO*/ }) {
@@ -161,6 +224,6 @@ fun MyText(modifier: Modifier) {
 @Composable
 fun GreetingPreview() {
     PracticasJetpackComposeTheme {
-        MyIcon(Modifier)
+        MyProgressBar(Modifier)
     }
 }
